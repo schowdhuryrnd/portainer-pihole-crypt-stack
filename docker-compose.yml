@@ -25,7 +25,7 @@ services:
     environment:
       TZ: 'Australia/Sydney'
       WEBPASSWORD: ${WEB_PASSWORD}
-      DNS1: "10.0.2.3#5300"
+      DNS1: "10.0.2.2#5300"
       DNS2: "no"
     volumes:
        - octodnscrypt-pihole:/etc/pihole/
