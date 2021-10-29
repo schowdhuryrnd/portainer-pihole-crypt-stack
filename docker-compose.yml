@@ -35,10 +35,11 @@ services:
       - dnscrypt
 networks:
   pihole_net:
-    driver: overlay
     ipam:
+      driver: overlay
       config:
         - subnet: "10.0.2.0/24"
+
 volumes:
   octodnscrypt-pihole:
   octodnscrypt-dnsmasq.d:
