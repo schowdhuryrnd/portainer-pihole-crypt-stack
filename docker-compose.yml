@@ -35,7 +35,7 @@ services:
       - dnscrypt
 networks:
   pihole_net:
-    driver: default
+    driver: overlay
     ipam:
       config:
         - subnet: "10.0.2.0/24"
