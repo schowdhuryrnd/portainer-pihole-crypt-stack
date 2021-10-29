@@ -1,0 +1,47 @@
+version: '3.3'
+
+services:
+  dnscrypt:
+    image: klutchell/dnscrypt-proxy:latest
+    networks:
+      pihole_net:
+        ipv4_address: 10.0.2.2
+    environment:
+      TZ: 'Australia/Sydney'
+    configs:
+      - source: octocrypt-config
+        target: /config/dnscrypt-proxy.toml
+    restart: unless-stopped
+
+  pihole:
+    image: pihole/pihole:latest
+    networks:
+      pihole_net:
+        ipv4_address: 10.0.2.3
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8081:80/tcp"
+    environment:
+      TZ: 'Australia/Sydney'
+      WEBPASSWORD: ${WEB_PASSWORD}
+      DNS1: "10.0.2.3#5300"
+      DNS2: "no"
+    volumes:
+       - octodnscrypt-pihole:/etc/pihole/
+       - octodnscrypt-dnsmasq.d:/etc/dnsmasq.d/
+    restart: unless-stopped
+    depends_on:
+      - dnscrypt
+networks:
+  pihole_net:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 10.0.2.0/24
+volumes:
+  octodnscrypt-pihole:
+  octodnscrypt-dnsmasq.d:
+configs:
+  octocrypt-config:
+     external: true
