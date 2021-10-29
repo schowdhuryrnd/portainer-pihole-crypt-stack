@@ -36,7 +36,6 @@ services:
 networks:
   pihole_net:
     ipam:
-      driver: overlay
       config:
         - subnet: "10.0.2.0/24"
 
